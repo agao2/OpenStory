@@ -23,6 +23,8 @@ namespace OpenStory.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Topic> Topics { get; set; }
+        
+        public DbSet<Reply> Replies { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
