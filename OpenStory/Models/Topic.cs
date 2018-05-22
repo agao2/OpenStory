@@ -8,6 +8,7 @@ namespace OpenStory.Models
 {
     public class Topic
     {
+        public int Id { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
         public DateTime PostDate { get; set; }

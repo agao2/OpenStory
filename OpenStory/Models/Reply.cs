@@ -7,6 +7,7 @@ namespace OpenStory.Models
 {
     public class Reply
     {
+        public int Id { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         
         public DateTime ReplyDate { get; set; }
@@ -15,7 +16,7 @@ namespace OpenStory.Models
 
         public string Content { get; set; }
         public int Likes { get; set; }
-        public int Dislikes { get;set }
+        public int Dislikes { get; set; }
 
     }
 }

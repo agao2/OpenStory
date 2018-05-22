@@ -7,6 +7,7 @@ namespace OpenStory.Models
 {
     public class Message
     {
+        public int Id { get; set; }
         public ApplicationUser From { get; set; }
         
         public ApplicationUser To { get; set; }
