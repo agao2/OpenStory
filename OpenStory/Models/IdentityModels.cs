@@ -26,6 +26,8 @@ namespace OpenStory.Models
         
         public DbSet<Reply> Replies { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
