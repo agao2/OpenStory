@@ -1,0 +1,26 @@
+﻿@model OpenStory.Models.TopicPartialViewModel
+
+
+<div id="topic ID" class="tight">
+    <div class="row ">
+        <div class="col-sm-6">
+            <h3>@Model.Story.Title</h3>
+        </div>
+        <div class="col-sm-4">
+            <h4>@Model.Story.ApplicationUser.Name</h4>
+        </div>
+        <div class="col-sm-2">
+            <h4>@Model.Story.PostDate</h4>
+        </div>
+    </div>
+    <hr class="tight" />
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            console.log("hello")
+        });
+    </script>
+}

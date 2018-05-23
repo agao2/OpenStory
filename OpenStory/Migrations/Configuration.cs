@@ -4,6 +4,7 @@ namespace OpenStory.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using OpenStory.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<OpenStory.Models.ApplicationDbContext>
     {
@@ -26,6 +27,14 @@ namespace OpenStory.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            ApplicationUser user = context.Users.Single(u => u.Email == "alex@gmail.com");
+
+            context.Topics.AddOrUpdate(x => x.Id,
+                new Topic() { Title = "Dks Suck", ApplicationUser = user, PostDate = DateTime.Now, Content = "Nothing", Likes = 0, Dislikes = 0} ,
+                 new Topic() { Title = "OMG ROGUES ARE SO OP", ApplicationUser = user, PostDate = DateTime.Now, Content = "Nothing", Likes = 0, Dislikes = 0 },
+                  new Topic() { Title = "OMG DESTRO LOCKS" , ApplicationUser = user, PostDate = DateTime.Now, Content = "Nothing", Likes = 0, Dislikes = 0 }
+                );
         }
     }
 }

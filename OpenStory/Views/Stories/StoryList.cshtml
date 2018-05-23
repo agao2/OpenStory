@@ -1,0 +1,43 @@
+﻿@model OpenStory.Models.StoryListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="container ">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Recent Stories</h1>
+        </div>
+        <div class="col-sm-3">
+            <div class="has-feedback form-group tight">
+                <input type="text" class="form-control placeholder=" Search"" />
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-default"> New Story</button>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+
+<ul class="list-group transparent">
+    @foreach (var story in Model.Stories)
+    {
+        var viewModel = new  OpenStory.Models.TopicPartialViewModel()
+        {
+            Story = story
+        };
+        <li> @Html.Partial("_TopicPartial", viewModel)</li>
+    }
+
+</ul>
+
+
+
+
+
+

@@ -22,3 +22,25 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.transparent li:hover {
+    background: #4E5D6C;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    cursor: pointer;
+}
+
+
+.tight {
+    margin: 0;
+}
