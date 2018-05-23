@@ -15,4 +15,8 @@ namespace OpenStory.Models
         public Topic Story { get; set; }
     }
 
+    public class StoryFormViewModel
+    {
+        public Topic newTopic { get; set; }
+    }
 }
