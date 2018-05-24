@@ -1,0 +1,61 @@
+﻿
+@model OpenStory.Models.TopicViewModel
+
+@{
+    ViewBag.Title = "Topic";
+}
+<div class="row">
+    <div class="col-sm-10">
+        <h1>@Model.Topic.Title</h1>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default"> Bookmark</button>
+    </div>
+</div>
+<br />
+<hr />
+
+<div class="row">
+    <div class="col-sm-1">
+        <h4>@Model.Topic.ApplicationUser.Name</h4>
+    </div>
+    <div class="col-sm-1">
+
+    </div>
+    <div class="col-sm-9">
+        <p>@Model.Topic.Content</p>
+    </div>
+</div>
+<hr />
+
+
+@foreach (var reply in Model.Replies)
+{
+    <div class="row">
+        <div class="col-sm-1">
+            <h4>@reply.ApplicationUser.Name</h4>
+        </div>
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-9">
+            <p>@reply.Content</p>
+        </div>
+    </div>
+    <hr />
+}
+
+<br />
+<br />
+
+
+@{
+    OpenStory.Models.ReplyPartialViewModel viewModel = new OpenStory.Models.ReplyPartialViewModel()
+    {
+        Reply = Model.NewReply,
+        Username = Model.Username,
+        TopicId = Model.Topic.Id
+    };
+    @Html.Partial("_ReplyPartial", viewModel);
+}
+

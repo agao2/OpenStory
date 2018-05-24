@@ -19,4 +19,24 @@ namespace OpenStory.Models
     {
         public Topic newTopic { get; set; }
     }
+
+    public class TopicViewModel
+    {
+        public Topic Topic { get; set; }
+
+        public IEnumerable<Reply> Replies { get; set; }
+
+        public Reply NewReply {get;set;}
+
+        public string Username { get; set; }
+    }
+
+    public class ReplyPartialViewModel
+    {
+        public Reply Reply { get; set; }
+
+        public int TopicId { get; set; }
+
+        public string Username { get; set; }
+    }
 }

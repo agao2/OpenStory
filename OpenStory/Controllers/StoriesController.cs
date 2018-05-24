@@ -67,5 +67,54 @@ namespace OpenStory.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [Route("Stories/Topic/{id}")]
+        public ActionResult Topic(int id)
+        {
+            Topic topic = _context.Topics.Include(s => s.ApplicationUser).Single(t => t.Id == id);
+            IEnumerable<Reply> replies = from reply in _context.Replies.Include(s => s.ApplicationUser)
+                                         where reply.Topic.Id == topic.Id
+                                         select reply;
+
+            String username = "Login to Reply!";
+            if (User.Identity.IsAuthenticated)
+            {
+                username = _userManager.FindById(User.Identity.GetUserId()).Name;
+            }
+
+            TopicViewModel viewModel = new TopicViewModel()
+            {
+                Topic = topic,
+                Replies = replies,
+                NewReply = new Reply(),
+                Username = username
+            };
+            return View("Topic",viewModel);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Reply(ReplyPartialViewModel NewReply)
+        {
+
+            Topic topic = _context.Topics.Single(t => t.Id == NewReply.TopicId);
+            Reply reply = new Reply()
+            {
+                Topic = topic,
+                ApplicationUser = _userManager.FindById(User.Identity.GetUserId()),
+                Content = NewReply.Reply.Content,
+                ReplyDate = DateTime.Now,
+                Likes = 0,
+                Dislikes = 0
+            };
+
+            _context.Replies.Add(reply);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("Topic", new { id = NewReply.TopicId });
+        }
     }
 }

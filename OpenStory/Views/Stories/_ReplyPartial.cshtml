@@ -1,0 +1,24 @@
+﻿
+@model OpenStory.Models.ReplyPartialViewModel
+
+<div class="row panel">
+    <div class="col-sm-2">
+        @Model.Username
+    </div>
+    <div class="container col-sm-10">
+        @using (Html.BeginForm("Reply", "Stories", FormMethod.Post, new { @class = "form-horizonal" }))
+        {
+
+            @Html.ValidationSummary(true, "Please fix the following")
+            <br>
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Reply.Content, new { @class = "form-control no-constraints" })
+                @Html.ValidationMessageFor(m => m.Reply.Content)
+            </div>
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.TopicId)
+            <button type="submit" class="btm btn-primary">Reply</button>
+        }
+        <br />
+    </div>
+</div>

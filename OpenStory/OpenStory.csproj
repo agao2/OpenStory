@@ -293,6 +293,8 @@
     <Content Include="Views\Stories\StoryList.cshtml" />
     <Content Include="Views\Stories\_TopicPartial.cshtml" />
     <Content Include="Views\Stories\StoryForm.cshtml" />
+    <Content Include="Views\Stories\Topic.cshtml" />
+    <Content Include="Views\Stories\_ReplyPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
