@@ -29,6 +29,8 @@ namespace OpenStory.Models
 
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Bookmark> Bookmarks { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -110,6 +110,8 @@ namespace OpenStory.Controllers
                 Dislikes = 0
             };
 
+            
+
             _context.Replies.Add(reply);
             _context.SaveChanges();
 

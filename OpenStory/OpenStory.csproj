@@ -216,8 +216,13 @@
     <Compile Include="Migrations\201805231915410_TopicRequireAttributesTitleAndContent.Designer.cs">
       <DependentUpon>201805231915410_TopicRequireAttributesTitleAndContent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805261634478_addBookmarksModel.cs" />
+    <Compile Include="Migrations\201805261634478_addBookmarksModel.Designer.cs">
+      <DependentUpon>201805261634478_addBookmarksModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
@@ -266,8 +271,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -325,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805231915410_TopicRequireAttributesTitleAndContent.resx">
       <DependentUpon>201805231915410_TopicRequireAttributesTitleAndContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805261634478_addBookmarksModel.resx">
+      <DependentUpon>201805261634478_addBookmarksModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
