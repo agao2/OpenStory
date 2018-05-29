@@ -192,6 +192,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MyPostsController.cs" />
     <Compile Include="Controllers\StoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -226,6 +227,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MyPostsViewModel.cs" />
     <Compile Include="Models\Reply.cs" />
     <Compile Include="Models\StoryViewModels.cs" />
     <Compile Include="Models\Topic.cs" />
@@ -298,6 +300,8 @@
     <Content Include="Views\Stories\StoryForm.cshtml" />
     <Content Include="Views\Stories\Topic.cshtml" />
     <Content Include="Views\Stories\_ReplyPartial.cshtml" />
+    <Content Include="Views\MyPosts\Index.cshtml" />
+    <Content Include="Views\MyPosts\_PostPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

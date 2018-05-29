@@ -1,0 +1,49 @@
+﻿
+@model OpenStory.Models.MyPostsViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>My Posts</h1>
+<hr />
+<br />
+<ul class="list-group transparent">
+    @foreach (var topic in Model.Topics)
+    {
+        var viewModel = new OpenStory.Models.PostPartialViewModel()
+        {
+            Title = topic.Title,
+            Content = topic.Content,
+            Id = topic.Id,
+            Username = topic.ApplicationUser.Name,
+            PostDate = topic.PostDate
+    };
+        <li>@Html.Partial("_PostPartial",viewModel)</li>
+    }
+</ul>
+
+
+
+<br />
+<br />
+<h1>My Replies</h1>
+<hr />
+<br />
+<ul class="list-group transparent">
+    @foreach (var reply in Model.Replies)
+    {
+        var viewModel = new OpenStory.Models.PostPartialViewModel()
+        {
+            Title = reply.Topic.Title,
+            Content = reply.Content,
+            Id = reply.Topic.Id,
+            Username = reply.ApplicationUser.Name,
+            PostDate = reply.ReplyDate
+        };
+        <li>@Html.Partial("_PostPartial", viewModel)</li>
+    }
+</ul>
+
+
+
