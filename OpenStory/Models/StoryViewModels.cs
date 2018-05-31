@@ -8,6 +8,8 @@ namespace OpenStory.Models
     public class StoryListViewModel
     {
         public IEnumerable<Topic> Stories { get; set; }
+
+        public string SearchString { get; set; }
     }
 
     public class TopicPartialViewModel

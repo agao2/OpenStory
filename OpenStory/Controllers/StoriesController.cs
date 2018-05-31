@@ -109,14 +109,29 @@ namespace OpenStory.Controllers
                 Likes = 0,
                 Dislikes = 0
             };
-
             
-
             _context.Replies.Add(reply);
             _context.SaveChanges();
 
-
             return RedirectToAction("Topic", new { id = NewReply.TopicId });
+        }
+
+        [HttpPost]
+        public ActionResult Search(StoryListViewModel Search)
+        {
+
+            var stories = _context.Topics
+                .Include(t => t.ApplicationUser)
+                .Where(t =>
+                t.ApplicationUser.Name.Contains(Search.SearchString) ||
+                t.Title.Contains(Search.SearchString) ||
+                t.Content.Contains(Search.SearchString));
+
+            StoryListViewModel viewModel = new StoryListViewModel()
+            {
+                Stories = stories
+            };
+            return View("StoryList", viewModel);
         }
     }
 }

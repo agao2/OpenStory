@@ -12,8 +12,11 @@
         </div>
         <div class="col-sm-3">
             <div class="has-feedback form-group tight">
-                <input type="text" class="form-control placeholder=" Search"" />
-                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                @using (Html.BeginForm("Search", "Stories", FormMethod.Post, new { @class = "form-horizonal" }))
+                {
+                    @Html.TextBoxFor(m => m.SearchString, new { @class = "form-control", placeholder = "Search", type = "text" });
+                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                }
             </div>
         </div>
         <div class="col-sm-2">
@@ -27,7 +30,7 @@
 <ul class="list-group transparent">
     @foreach (var story in Model.Stories)
     {
-        var viewModel = new  OpenStory.Models.TopicPartialViewModel()
+        var viewModel = new OpenStory.Models.TopicPartialViewModel()
         {
             Story = story
         };
