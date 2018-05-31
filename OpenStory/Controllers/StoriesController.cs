@@ -82,16 +82,21 @@ namespace OpenStory.Controllers
         {
             int fetch = 10;
             if (!page.HasValue)
-                page = 0;
-            int offset = page.Value * 10;
+                page = 1;
+          
+            int offset = (page.Value-1) * 10;
 
             Topic topic = _context.Topics.Include(s => s.ApplicationUser).Single(t => t.Id == id);
+
+            int totalReplies = _context.Replies.Where(r => r.Topic.Id == topic.Id).Count();
+           
             IEnumerable<Reply> replies = _context.Replies.Include(s => s.ApplicationUser)
                                          .OrderBy(r => r.ReplyDate)
                                          .Skip(() => offset)
                                          .Take(() => fetch)
                                          .Where(r => r.Topic.Id == topic.Id).ToList();
-                               
+
+            int pageCount = (totalReplies / fetch) +1;
 
             String username = "Login to Reply!";
             if (User.Identity.IsAuthenticated)
@@ -104,7 +109,9 @@ namespace OpenStory.Controllers
                 Topic = topic,
                 Replies = replies,
                 NewReply = new Reply(),
-                Username = username
+                Username = username,
+                Page = page.Value,
+                TotalPages = pageCount
             };
             return View("Topic",viewModel);
         }

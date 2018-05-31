@@ -16,28 +16,28 @@
 <hr />
 
 @*<div class="row">
-    <div class="col-sm-1">
-        <h4>@Model.Topic.ApplicationUser.Name</h4>
-    </div>
-    <div class="col-sm-1">
+        <div class="col-sm-1">
+            <h4>@Model.Topic.ApplicationUser.Name</h4>
+        </div>
+        <div class="col-sm-1">
 
-    </div>
-    <div class="col-sm-9">
-        <div class="list-group">
-            <p class="list-group-item-heading">@Model.Topic.Content</p>
-            <br />
-            <button class="list-group-item-heading btn btn-primary">
-                <i class=" list-group-item-heading fa fa-thumbs-o-up"></i>
-                Like
-            </button>
-            <button class="list-group-item-heading btn btn-primary">
-                <i class=" list-group-item-heading fa fa-thumbs-o-down"></i>
-                Dislike
-            </button>
+        </div>
+        <div class="col-sm-9">
+            <div class="list-group">
+                <p class="list-group-item-heading">@Model.Topic.Content</p>
+                <br />
+                <button class="list-group-item-heading btn btn-primary">
+                    <i class=" list-group-item-heading fa fa-thumbs-o-up"></i>
+                    Like
+                </button>
+                <button class="list-group-item-heading btn btn-primary">
+                    <i class=" list-group-item-heading fa fa-thumbs-o-down"></i>
+                    Dislike
+                </button>
+            </div>
         </div>
     </div>
-</div>
-<hr />*@
+    <hr />*@
 
 
 @foreach (var reply in Model.Replies)
@@ -66,6 +66,49 @@
     </div>
     <hr />
 }
+@Model.TotalPages
+
+@helper PageButtons(int start, int end)
+    {
+
+        if (end < (start + 2))
+        {
+            <li><a>@start</a></li>
+            <li><a>@{start++;}</a></li>
+            <li><a>@{start++;}</a></li>
+            <li><a>...</a></li>
+            <li><a>@end</a></li>
+        }
+        else
+        {
+            while (start <= end)
+            {
+                <li><a>@start</a></li>
+                start++;
+            }
+        }
+}
+
+<div class="align-center">
+    <ul class="pagination pagination-lg">
+        @if (Model.Page == 1)
+        {
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">&raquo;</a></li>
+        }
+        else if (Model.Page == Model.TotalPages)
+        {
+            <li><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">@Model.TotalPages</a></li>
+        }
+        else
+        {
+            <li><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">&raquo;</a></li>
+        }
+    </ul>
+</div>
 
 <br />
 <br />

@@ -33,6 +33,9 @@ namespace OpenStory.Models
         public Reply NewReply {get;set;}
 
         public string Username { get; set; }
+
+        public int Page { get; set; }
+        public int TotalPages { get; set; }
     }
 
     public class ReplyPartialViewModel
