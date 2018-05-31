@@ -77,11 +77,13 @@ namespace OpenStory.Controllers
             }
         }
 
-        [Route("Stories/Topic/{id}")]
-        public ActionResult Topic(int id)
+        [Route("Stories/Topic/{id}/{page?}")]
+        public ActionResult Topic(int id , int? page)
         {
             int fetch = 10;
-            int offset = 0;
+            if (!page.HasValue)
+                page = 0;
+            int offset = page.Value * 10;
 
             Topic topic = _context.Topics.Include(s => s.ApplicationUser).Single(t => t.Id == id);
             IEnumerable<Reply> replies = _context.Replies.Include(s => s.ApplicationUser)
