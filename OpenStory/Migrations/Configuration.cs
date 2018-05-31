@@ -31,9 +31,7 @@ namespace OpenStory.Migrations
             ApplicationUser user = context.Users.Single(u => u.Email == "alex@gmail.com");
 
             context.Topics.AddOrUpdate(x => x.Id,
-                new Topic() { Title = "Dks Suck", ApplicationUser = user, PostDate = DateTime.Now, Content = "Nothing", Likes = 0, Dislikes = 0} ,
-                 new Topic() { Title = "OMG ROGUES ARE SO OP", ApplicationUser = user, PostDate = DateTime.Now, Content = "Nothing", Likes = 0, Dislikes = 0 },
-                  new Topic() { Title = "OMG DESTRO LOCKS" , ApplicationUser = user, PostDate = DateTime.Now, Content = "Nothing", Likes = 0, Dislikes = 0 }
+                new Topic() { Title = "Dks Suck", ApplicationUser = user , PostDate = DateTime.Now}
                 );
         }
     }

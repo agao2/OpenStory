@@ -36,7 +36,8 @@ namespace OpenStory.Controllers
         {
             StoryFormViewModel viewModel = new StoryFormViewModel()
             {
-                newTopic = new Topic()
+                NewTopic = new Topic(),
+                TopicReply = new Reply()
             };
             return View("StoryForm", viewModel);
         }
@@ -44,24 +45,32 @@ namespace OpenStory.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(Topic newTopic)
+        public ActionResult Save(Topic newTopic , Reply topicReply)
         {
             if (!ModelState.IsValid)
             {
                 StoryFormViewModel viewModel = new StoryFormViewModel()
                 {
-                    newTopic = newTopic
+                    NewTopic = newTopic,
+                    TopicReply = topicReply
+                    
                 };
                 return View("StoryForm", viewModel);
             }
             else
             {
                 newTopic.PostDate = DateTime.Now;
-                newTopic.ApplicationUser = _userManager.FindById(User.Identity.GetUserId());
-                newTopic.Likes = 0;
-                newTopic.Dislikes = 0;
+                ApplicationUser author = _userManager.FindById(User.Identity.GetUserId());
+                newTopic.ApplicationUser = author;
+
+                topicReply.ApplicationUser = author;
+                topicReply.Topic = newTopic;
+                topicReply.ReplyDate = DateTime.Now;
+                topicReply.Likes = 0;
+                topicReply.Dislikes = 0;
 
                 _context.Topics.Add(newTopic);
+                _context.Replies.Add(topicReply);
                 _context.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -71,10 +80,16 @@ namespace OpenStory.Controllers
         [Route("Stories/Topic/{id}")]
         public ActionResult Topic(int id)
         {
+            int fetch = 10;
+            int offset = 0;
+
             Topic topic = _context.Topics.Include(s => s.ApplicationUser).Single(t => t.Id == id);
-            IEnumerable<Reply> replies = from reply in _context.Replies.Include(s => s.ApplicationUser)
-                                         where reply.Topic.Id == topic.Id
-                                         select reply;
+            IEnumerable<Reply> replies = _context.Replies.Include(s => s.ApplicationUser)
+                                         .OrderBy(r => r.ReplyDate)
+                                         .Skip(() => offset)
+                                         .Take(() => fetch)
+                                         .Where(r => r.Topic.Id == topic.Id).ToList();
+                               
 
             String username = "Login to Reply!";
             if (User.Identity.IsAuthenticated)
@@ -124,8 +139,7 @@ namespace OpenStory.Controllers
                 .Include(t => t.ApplicationUser)
                 .Where(t =>
                 t.ApplicationUser.Name.Contains(Search.SearchString) ||
-                t.Title.Contains(Search.SearchString) ||
-                t.Content.Contains(Search.SearchString));
+                t.Title.Contains(Search.SearchString));
 
             StoryListViewModel viewModel = new StoryListViewModel()
             {

@@ -19,7 +19,9 @@ namespace OpenStory.Models
 
     public class StoryFormViewModel
     {
-        public Topic newTopic { get; set; }
+        public Topic NewTopic { get; set; }
+
+        public Reply TopicReply { get; set; }
     }
 
     public class TopicViewModel

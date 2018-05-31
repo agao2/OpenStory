@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201805261634478_addBookmarksModel.Designer.cs">
       <DependentUpon>201805261634478_addBookmarksModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805311908549_removeReplyInfoFromTopic.cs" />
+    <Compile Include="Migrations\201805311908549_removeReplyInfoFromTopic.Designer.cs">
+      <DependentUpon>201805311908549_removeReplyInfoFromTopic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bookmark.cs" />
@@ -343,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805261634478_addBookmarksModel.resx">
       <DependentUpon>201805261634478_addBookmarksModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805311908549_removeReplyInfoFromTopic.resx">
+      <DependentUpon>201805311908549_removeReplyInfoFromTopic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

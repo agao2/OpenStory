@@ -16,9 +16,5 @@ namespace OpenStory.Models
         [Required( ErrorMessage ="Please Enter in a Title")]
         public string Title { get; set; }
 
-        [Required( ErrorMessage ="Please Enter in some Text")]
-        public string Content { get; set; }
-        public int Dislikes { get; set; }
-        public int Likes { get; set; }
     }
 }
