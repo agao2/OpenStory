@@ -12,7 +12,7 @@ namespace OpenStory.Models
         public string SearchString { get; set; }
     }
 
-    public class TopicPartialViewModel
+    public class StoryListPartialViewModel
     {
         public Topic Story { get; set; }
     }

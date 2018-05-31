@@ -23,7 +23,18 @@
 
     </div>
     <div class="col-sm-9">
-        <p>@Model.Topic.Content</p>
+        <div class="list-group">
+            <p class="list-group-item-heading">@Model.Topic.Content</p>
+            <br />
+            <button class="list-group-item-heading btn btn-primary">
+                <i class=" list-group-item-heading fa fa-thumbs-o-up"></i>
+                Like
+            </button>
+            <button class="list-group-item-heading btn btn-primary">
+                <i class=" list-group-item-heading fa fa-thumbs-o-down"></i>
+                Dislike
+            </button>
+        </div>
     </div>
 </div>
 <hr />
@@ -39,7 +50,18 @@
 
         </div>
         <div class="col-sm-9">
-            <p>@reply.Content</p>
+            <div class="list-group">
+                <p class="list-group-item-heading">@reply.Content</p>
+                <br />
+                <button class="list-group-item-heading btn btn-primary">
+                    <i class=" list-group-item-heading fa fa-thumbs-o-up"></i>
+                    Like
+                </button>
+                <button class="list-group-item-heading btn btn-primary">
+                    <i class=" list-group-item-heading fa fa-thumbs-o-down"></i>
+                    Dislike
+                </button>
+            </div>
         </div>
     </div>
     <hr />

@@ -304,7 +304,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
     <Content Include="Views\Stories\StoryList.cshtml" />
-    <Content Include="Views\Stories\_TopicPartial.cshtml" />
+    <Content Include="Views\Stories\_StoryListPartial.cshtml" />
     <Content Include="Views\Stories\StoryForm.cshtml" />
     <Content Include="Views\Stories\Topic.cshtml" />
     <Content Include="Views\Stories\_ReplyPartial.cshtml" />

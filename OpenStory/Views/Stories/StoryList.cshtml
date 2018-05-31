@@ -30,11 +30,11 @@
 <ul class="list-group transparent">
     @foreach (var story in Model.Stories)
     {
-        var viewModel = new OpenStory.Models.TopicPartialViewModel()
+        var viewModel = new OpenStory.Models.StoryListPartialViewModel()
         {
             Story = story
         };
-        <li> @Html.Partial("_TopicPartial", viewModel)</li>
+        <li> @Html.Partial("_StoryListPartial", viewModel)</li>
     }
 </ul>
 
