@@ -15,31 +15,6 @@
 <br />
 <hr />
 
-@*<div class="row">
-        <div class="col-sm-1">
-            <h4>@Model.Topic.ApplicationUser.Name</h4>
-        </div>
-        <div class="col-sm-1">
-
-        </div>
-        <div class="col-sm-9">
-            <div class="list-group">
-                <p class="list-group-item-heading">@Model.Topic.Content</p>
-                <br />
-                <button class="list-group-item-heading btn btn-primary">
-                    <i class=" list-group-item-heading fa fa-thumbs-o-up"></i>
-                    Like
-                </button>
-                <button class="list-group-item-heading btn btn-primary">
-                    <i class=" list-group-item-heading fa fa-thumbs-o-down"></i>
-                    Dislike
-                </button>
-            </div>
-        </div>
-    </div>
-    <hr />*@
-
-
 @foreach (var reply in Model.Replies)
 {
     <div class="row">
@@ -66,25 +41,21 @@
     </div>
     <hr />
 }
-Total pages = @Model.TotalPages
-<br />
-Page = @Model.Page
 
 @helper PageButtons(int start, int end)
     {
 
         if (end > (start + 1))
         {
-            <li><a>@start</a></li>
-            <li><a>@{start++;}</a></li>
+            <li><a href="/Stories/Topic/@Model.Topic.Id/@start">@start</a></li>
             <li><a>...</a></li>
-            <li><a>@end</a></li>
+            <li><a href="/Stories/Topic/@Model.Topic.Id/@end">@end</a></li>
         }
         else
         {
             while (start <= end)
             {
-                <li><a>@start</a></li>
+                <li><a href="/Stories/Topic/@Model.Topic.Id/@start">@start</a></li>
                 start++;
             }
         }
@@ -94,28 +65,28 @@ Page = @Model.Page
     <ul class="pagination pagination-lg">
         @if (Model.Page == 1)
         {
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">&raquo;</a></li>
+            <li class="active"><a>1</a></li>
+            @PageButtons(2, Model.TotalPages)
+            <li>@Html.ActionLink("Next >", "Topic", "Stories", new { id = Model.Topic.Id, page = (Model.Page + 1) }, null)</li>
         }
         else if (Model.Page == Model.TotalPages)
         {
-            <li><a href="#">&laquo;</a></li>
-            <li class="active"><a href="#">@Model.TotalPages</a></li>
+            <li>@Html.ActionLink("< Previous", "Topic", "Stories", new { id = Model.Topic.Id, page = (Model.Page - 1) }, null)</li>
+            @PageButtons(1, Model.TotalPages-1)
+            <li class="active"><a>@Model.TotalPages</a></li>
         }
         else
         {
-            <li><a href="#">&laquo;</a></li>
-            @PageButtons(1, Model.Page-1)
+            <li>@Html.ActionLink("< Previous", "Topic", "Stories", new { id = Model.Topic.Id, page = (Model.Page - 1) }, null)</li>
+            @PageButtons(1, Model.Page - 1)
             <li class="active"><a href="#">@Model.Page</a></li>
-            @PageButtons(Model.Page +1, Model.TotalPages)
-            <li><a href="#">&raquo;</a></li>
+            @PageButtons(Model.Page + 1, Model.TotalPages)
+            <li>@Html.ActionLink("Next >", "Topic", "Stories", new { id = Model.Topic.Id, page = (Model.Page + 1) }, null)</li>
         }
     </ul>
 </div>
-
 <br />
 <br />
-
 
 @{
     OpenStory.Models.ReplyPartialViewModel viewModel = new OpenStory.Models.ReplyPartialViewModel()

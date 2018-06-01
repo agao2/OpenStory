@@ -83,7 +83,7 @@ namespace OpenStory.Controllers
             int fetch = 10;
             if (!page.HasValue)
                 page = 1;
-          
+            
             int offset = (page.Value-1) * 10;
 
             Topic topic = _context.Topics.Include(s => s.ApplicationUser).Single(t => t.Id == id);
