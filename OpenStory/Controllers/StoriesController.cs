@@ -94,10 +94,11 @@ namespace OpenStory.Controllers
             int totalReplies = _context.Replies.Where(r => r.Topic.Id == topic.Id).Count();
            
             IEnumerable<Reply> replies = _context.Replies.Include(s => s.ApplicationUser)
+                                         .Where(r => r.Topic.Id == topic.Id)
                                          .OrderBy(r => r.ReplyDate)
                                          .Skip(() => offset)
                                          .Take(() => fetch)
-                                         .Where(r => r.Topic.Id == topic.Id).ToList();
+                                         .ToList();
 
             int pageCount = (totalReplies / fetch) +1;
 
