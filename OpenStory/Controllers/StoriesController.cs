@@ -24,7 +24,10 @@ namespace OpenStory.Controllers
  
         public ActionResult Index()
         {
-            var stories = _context.Topics.Include(s => s.ApplicationUser).ToList();
+            var stories = _context.Topics
+                .Include(s => s.ApplicationUser)
+                .OrderByDescending(s => s.PostDate)
+                .ToList();
             StoryListViewModel viewModel = new StoryListViewModel()
             {
                 Stories = stories

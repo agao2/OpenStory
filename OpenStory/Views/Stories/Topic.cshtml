@@ -9,7 +9,7 @@
         <h1>@Model.Topic.Title</h1>
     </div>
     <div class="col-sm-2">
-        <button class="btn btn-default"> Bookmark</button>
+        <button class="btn btn-default">Reply</button>
     </div>
 </div>
 <br />
@@ -22,7 +22,6 @@
             <h4>@reply.ApplicationUser.Name</h4>
         </div>
         <div class="col-sm-1">
-
         </div>
         <div class="col-sm-9">
             <div class="list-group">
@@ -44,7 +43,6 @@
 
 @helper PageButtons(int start, int end)
     {
-
         if (end > (start + 1))
         {
             <li><a href="/Stories/Topic/@Model.Topic.Id/@start">@start</a></li>

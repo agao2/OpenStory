@@ -229,9 +229,12 @@
     <Compile Include="Migrations\201805311929506_addRequireToReplyContent.Designer.cs">
       <DependentUpon>201805311929506_addRequireToReplyContent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806010606436_removeBookmarkModel.cs" />
+    <Compile Include="Migrations\201806010606436_removeBookmarkModel.Designer.cs">
+      <DependentUpon>201806010606436_removeBookmarkModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
@@ -357,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805311929506_addRequireToReplyContent.resx">
       <DependentUpon>201805311929506_addRequireToReplyContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806010606436_removeBookmarkModel.resx">
+      <DependentUpon>201806010606436_removeBookmarkModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
