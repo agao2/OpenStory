@@ -5,26 +5,9 @@
     ViewBag.Title = "Index";
 }
 
+<br />
+<br />
 <h1>My Posts</h1>
-<hr />
-<br />
-<ul class="list-group transparent">
-    @foreach (var topic in Model.Topics)
-    {
-        var viewModel = new OpenStory.Models.PostPartialViewModel()
-        {
-            Title = topic.Title,
-            Id = topic.Id,
-            Username = topic.ApplicationUser.Name,
-            PostDate = topic.PostDate
-    };
-        <li>@Html.Partial("_PostPartial",viewModel)</li>
-    }
-</ul>
-
-<br />
-<br />
-<h1>My Replies</h1>
 <hr />
 <br />
 <ul class="list-group transparent">
