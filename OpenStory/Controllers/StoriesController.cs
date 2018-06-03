@@ -147,12 +147,12 @@ namespace OpenStory.Controllers
         [HttpPost]
         public ActionResult Search(StoryListViewModel Search)
         {
-
             var stories = _context.Topics
                 .Include(t => t.ApplicationUser)
                 .Where(t =>
                 t.ApplicationUser.Name.Contains(Search.SearchString) ||
-                t.Title.Contains(Search.SearchString));
+                t.Title.Contains(Search.SearchString))
+                .OrderByDescending(t => t.PostDate);
 
             StoryListViewModel viewModel = new StoryListViewModel()
             {
