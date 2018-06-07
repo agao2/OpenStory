@@ -321,6 +321,7 @@
     <Content Include="Views\Stories\_ReplyPartial.cshtml" />
     <Content Include="Views\MyPosts\Index.cshtml" />
     <Content Include="Views\MyPosts\_PostPartial.cshtml" />
+    <Content Include="Views\Stories\StoryListSearch.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

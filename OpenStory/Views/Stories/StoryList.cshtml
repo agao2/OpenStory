@@ -42,4 +42,47 @@
 
 
 
+@helper PageButtons(int start, int end)
+    {
+        if (end > (start + 1))
+        {
+            <li><a href="/Stories/@start">@start</a></li>
+            <li><a>...</a></li>
+            <li><a href="/Stories/@end">@end</a></li>
+        }
+        else
+        {
+            while (start <= end)
+            {
+                <li><a href="/Stories/@start">@start</a></li>
+                start++;
+            }
+        }
+}
+
+<div class="align-center">
+    <ul class="pagination pagination-lg">
+        @if (Model.Page == 1)
+        {
+            <li class="active"><a>1</a></li>
+            @PageButtons(2, Model.TotalPages)
+            <li>@Html.ActionLink("Next >", "Index", "Stories", new { page = (Model.Page + 1) }, null)</li>
+        }
+        else if (Model.Page == Model.TotalPages)
+        {
+            <li>@Html.ActionLink("< Previous", "Index", "Stories", new { page = (Model.Page - 1) }, null)</li>
+            @PageButtons(1, Model.TotalPages - 1)
+            <li class="active"><a>@Model.TotalPages</a></li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("< Previous", "Index", "Stories", new { page = (Model.Page - 1) }, null)</li>
+            @PageButtons(1, Model.Page - 1)
+            <li class="active"><a href="#">@Model.Page</a></li>
+            @PageButtons(Model.Page + 1, Model.TotalPages)
+            <li>@Html.ActionLink("Next >", "Index", "Stories", new { page = (Model.Page + 1) }, null)</li>
+        }
+    </ul>
+</div>
+
 

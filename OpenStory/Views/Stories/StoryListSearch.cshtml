@@ -1,0 +1,36 @@
+﻿
+@model OpenStory.Models.StoryListSearchViewModel
+
+<div class="container ">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>Recent Stories</h1>
+        </div>
+        <div class="col-sm-3">
+            <div class="has-feedback form-group tight">
+                @using (Html.BeginForm("Search", "Stories", FormMethod.Get, new { @class = "form-horizonal" }))
+                {
+                    @Html.TextBoxFor(m => m.SearchString, new { @class = "form-control", placeholder = "Search", type = "text" });
+                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                }
+            </div>
+        </div>
+        <div class="col-sm-2">
+            @Html.ActionLink("New Story", "New", "Stories", new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+
+<ul class="list-group transparent">
+    @foreach (var story in Model.Stories)
+    {
+        var viewModel = new OpenStory.Models.StoryListPartialViewModel()
+        {
+            Story = story
+        };
+        <li> @Html.Partial("_StoryListPartial", viewModel)</li>
+    }
+</ul>
+

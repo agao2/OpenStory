@@ -21,20 +21,35 @@ namespace OpenStory.Controllers
             this._userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this._context));
         }
 
- 
-        public ActionResult Index()
+        [Route("Stories/{page?}")]
+        public ActionResult Index(int? page)
         {
+            int fetch = 10;
+            if (!page.HasValue)
+                page = 1;
+            int offset = (page.Value - 1) * fetch;
+
+            int totalStories = _context.Topics.Count();
+
             var stories = _context.Topics
                 .Include(s => s.ApplicationUser)
                 .OrderByDescending(s => s.PostDate)
+                .Skip(() => offset)
+                .Take(() => fetch)
                 .ToList();
+
+            int pageCount = (totalStories / fetch) + 1;
+
             StoryListViewModel viewModel = new StoryListViewModel()
             {
-                Stories = stories
+                Stories = stories,
+                Page = page.Value,
+                TotalPages = pageCount
             };
             return View("StoryList" , viewModel);
         }
 
+        [Route("Stories/New")]
         public ActionResult New()
         {
             StoryFormViewModel viewModel = new StoryFormViewModel()
@@ -148,8 +163,8 @@ namespace OpenStory.Controllers
             return RedirectToAction("Topic", new { id = NewReply.TopicId });
         }
 
-        [HttpPost]
-        public ActionResult Search(StoryListViewModel Search)
+        [Route("Stories/Search/{page?}")]
+        public ActionResult Search(StoryListSearchViewModel Search)
         {
             var stories = _context.Topics
                 .Include(t => t.ApplicationUser)
@@ -158,11 +173,12 @@ namespace OpenStory.Controllers
                 t.Title.Contains(Search.SearchString))
                 .OrderByDescending(t => t.PostDate);
 
-            StoryListViewModel viewModel = new StoryListViewModel()
+            StoryListSearchViewModel viewModel = new StoryListSearchViewModel()
             {
-                Stories = stories
+                Stories = stories,
+                SearchString = Search.SearchString
             };
-            return View("StoryList", viewModel);
+            return View("StoryListSearch", viewModel);
         }
     }
 }

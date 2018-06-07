@@ -8,8 +8,19 @@ namespace OpenStory.Models
     public class StoryListViewModel
     {
         public IEnumerable<Topic> Stories { get; set; }
+        public string SearchString { get; set; }
+        public int Page { get; set; }
+        public int TotalPages { get; set; }
+
+    }
+
+    public class StoryListSearchViewModel
+    {
+        public IEnumerable<Topic> Stories { get; set; }
 
         public string SearchString { get; set; }
+        public int Page { get; set; }
+        public int TotalPages { get; set; }
     }
 
     public class StoryListPartialViewModel
