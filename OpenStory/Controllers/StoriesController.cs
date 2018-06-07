@@ -122,10 +122,15 @@ namespace OpenStory.Controllers
 
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Reply(ReplyPartialViewModel NewReply)
         {
+
+            if(!User.Identity.IsAuthenticated)
+            {
+                return RedirectToActionPermanent("Login", "Account", new { returnUrl = "/Stories/Topic/" + NewReply.TopicId });
+            }
 
             Topic topic = _context.Topics.Single(t => t.Id == NewReply.TopicId);
             Reply reply = new Reply()

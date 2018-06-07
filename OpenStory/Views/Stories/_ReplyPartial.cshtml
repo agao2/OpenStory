@@ -6,7 +6,7 @@
         @Model.Username
     </div>
     <div class="container col-sm-10">
-        @using (Html.BeginForm("Reply", "Stories", FormMethod.Post, new { @class = "form-horizonal" }))
+        @using (Html.BeginForm("Reply", "Stories", new { ReturnUrl = ""}, FormMethod.Post, new { @class = "form-horizonal" }))
         {
 
             @Html.ValidationSummary(true, "Please fix the following")
