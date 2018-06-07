@@ -21,22 +21,31 @@ namespace OpenStory.Controllers
         }
 
         [Authorize]
-        public ActionResult Index()
+        [Route("MyPosts/{page?}")]
+        public ActionResult Index(int? page)
         {
             string userId = User.Identity.GetUserId();
 
-            IEnumerable<Topic> topics = from topic in _context.Topics.Include(t => t.ApplicationUser)
-                         where topic.ApplicationUser.Id == userId
-                         select topic;
-            IEnumerable<Reply> replies = from reply in _context.Replies.Include(r => r.ApplicationUser).Include(r => r.Topic)
-                                         where reply.ApplicationUser.Id == userId
-                                         select reply;
+            int fetch = 10;
+            if (!page.HasValue)
+                page = 1;
+            int offset = (page.Value - 1) * fetch;
+            int totalReplies = _context.Replies.Include(r => r.ApplicationUser).Where(r => r.ApplicationUser.Id == userId).Count();
 
+            IEnumerable<Reply> replies =  _context.Replies.Include(r => r.ApplicationUser).Include(r => r.Topic)
+                                         .Where(r => r.ApplicationUser.Id == userId)
+                                         .OrderByDescending(r => r.ReplyDate)
+                                         .Skip(() => offset)
+                                         .Take(() => fetch)
+                                         .ToList();
+
+            int pageCount = (totalReplies / fetch) + 1;
 
             MyPostsViewModel viewModel = new MyPostsViewModel()
             {
-                Topics = topics,
-                Replies = replies
+                Replies = replies,
+                TotalPages = pageCount,
+                Page = page.Value,
             };
 
             return View(viewModel);

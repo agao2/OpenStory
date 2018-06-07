@@ -7,8 +7,10 @@ namespace OpenStory.Models
 {
     public class MyPostsViewModel
     {
-        public IEnumerable<Topic> Topics { get; set; }
         public IEnumerable<Reply> Replies { get; set; }
+        public int Page { get; set; }
+
+        public int TotalPages { get; set; }
     }
 
     public class PostPartialViewModel

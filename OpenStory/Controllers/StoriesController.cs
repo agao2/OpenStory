@@ -87,7 +87,7 @@ namespace OpenStory.Controllers
             if (!page.HasValue)
                 page = 1;
             
-            int offset = (page.Value-1) * 10;
+            int offset = (page.Value-1) * fetch;
 
             Topic topic = _context.Topics.Include(s => s.ApplicationUser).Single(t => t.Id == id);
 
@@ -119,7 +119,6 @@ namespace OpenStory.Controllers
             };
             return View("Topic",viewModel);
         }
-
 
         [HttpPost]
         //[Authorize]
