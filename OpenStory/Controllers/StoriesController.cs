@@ -63,6 +63,7 @@ namespace OpenStory.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
+        [Route("Stories/Save")]
         public ActionResult Save(Topic newTopic , Reply topicReply)
         {
             if (!ModelState.IsValid)
@@ -136,8 +137,8 @@ namespace OpenStory.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
         [ValidateAntiForgeryToken]
+        [Route("Stories/Reply")]
         public ActionResult Reply(ReplyPartialViewModel NewReply)
         {
 
@@ -163,20 +164,37 @@ namespace OpenStory.Controllers
             return RedirectToAction("Topic", new { id = NewReply.TopicId });
         }
 
-        [Route("Stories/Search/{page?}")]
-        public ActionResult Search(StoryListSearchViewModel Search)
+        [Route("Stories/Search/{query?}/{page?}")]
+        public ActionResult Search(string query, int? page)
         {
+            int fetch = 10;
+            if (!page.HasValue)
+                page = 1;
+            int offset = (page.Value - 1) * fetch;
+
+            int count = _context.Topics
+            .Include(t => t.ApplicationUser)
+            .Where(t =>
+            t.ApplicationUser.Name.Contains(query) ||
+            t.Title.Contains(query)).Count();
+
             var stories = _context.Topics
                 .Include(t => t.ApplicationUser)
                 .Where(t =>
-                t.ApplicationUser.Name.Contains(Search.SearchString) ||
-                t.Title.Contains(Search.SearchString))
-                .OrderByDescending(t => t.PostDate);
+                t.ApplicationUser.Name.Contains(query) ||
+                t.Title.Contains(query))
+                .OrderByDescending(t => t.PostDate)
+                .Skip(() => offset)
+                .Take(() => fetch);
+
+            int pageCount = (count / fetch) + 1;
 
             StoryListSearchViewModel viewModel = new StoryListSearchViewModel()
             {
                 Stories = stories,
-                SearchString = Search.SearchString
+                SearchString = query,
+                Page = page.Value,
+                TotalPages = pageCount,
             };
             return View("StoryListSearch", viewModel);
         }

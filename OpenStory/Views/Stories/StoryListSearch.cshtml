@@ -8,11 +8,10 @@
         </div>
         <div class="col-sm-3">
             <div class="has-feedback form-group tight">
-                @using (Html.BeginForm("Search", "Stories", FormMethod.Get, new { @class = "form-horizonal" }))
-                {
-                    @Html.TextBoxFor(m => m.SearchString, new { @class = "form-control", placeholder = "Search", type = "text" });
+                <form action="/Stories/Search" class="form-horizonal" method="get">
+                    <input class="form-control" id="SearchString" name="query" placeholder="Search" type="text">
                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                }
+                </form>
             </div>
         </div>
         <div class="col-sm-2">
@@ -34,3 +33,45 @@
     }
 </ul>
 
+
+@helper PageButtons(int start, int end)
+    {
+if (end > (start + 1))
+{
+            <li><a href="/Stories/Search?query=@Model.SearchString&page=@start">@start</a></li>
+            <li><a>...</a></li>
+            <li><a href="/Stories/Search?query=@Model.SearchString&page=@end">@end</a></li>
+        }
+        else
+        {
+            while (start <= end)
+            {
+                <li><a href="/Stories/Search?query=@Model.SearchString&page=@start">@start</a></li>
+                start++;
+            }
+        }
+}
+<div class="align-center">
+    <ul class="pagination pagination-lg">
+        @if (Model.Page == 1)
+        {
+            <li class="active"><a>1</a></li>
+            @PageButtons(2, Model.TotalPages)
+            <li><a href="/Stories/Search?query=@Model.SearchString&page=@(Model.Page +1)">Next ></a></li>
+        }
+        else if (Model.Page == Model.TotalPages)
+        {
+            <li><a href="/Stories/Search?query=@Model.SearchString&page=@(Model.Page -1)">< Previous</a></li>
+            @PageButtons(1, Model.TotalPages - 1)
+            <li class="active"><a>@Model.TotalPages</a></li>
+        }
+        else
+        {
+            <li><a href="/Stories/Search?query=@Model.SearchString&page=@(Model.Page -1)">< Previous</a></li>
+            @PageButtons(1, Model.Page - 1)
+            <li class="active"><a href="#">@Model.Page</a></li>
+            @PageButtons(Model.Page + 1, Model.TotalPages)
+            <li><a href="/Stories/Search?query=@Model.SearchString&page=@(Model.Page +1)">Next ></a></li>
+        }
+    </ul>
+</div>

@@ -12,11 +12,10 @@
         </div>
         <div class="col-sm-3">
             <div class="has-feedback form-group tight">
-                @using (Html.BeginForm("Search", "Stories", FormMethod.Post, new { @class = "form-horizonal" }))
-                {
-                    @Html.TextBoxFor(m => m.SearchString, new { @class = "form-control", placeholder = "Search", type = "text" });
+                <form action="/Stories/Search" class="form-horizonal" method="get">
+                    <input class="form-control" id="SearchString" name="query" placeholder="Search" type="text">
                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                }
+                </form>
             </div>
         </div>
         <div class="col-sm-2">
@@ -26,6 +25,7 @@
 </div>
 <hr />
 <br />
+
 
 <ul class="list-group transparent">
     @foreach (var story in Model.Stories)
@@ -37,10 +37,6 @@
         <li> @Html.Partial("_StoryListPartial", viewModel)</li>
     }
 </ul>
-
-
-
-
 
 @helper PageButtons(int start, int end)
     {
@@ -59,7 +55,6 @@
             }
         }
 }
-
 <div class="align-center">
     <ul class="pagination pagination-lg">
         @if (Model.Page == 1)
@@ -84,5 +79,4 @@
         }
     </ul>
 </div>
-
 
