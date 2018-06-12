@@ -6,7 +6,7 @@ can come in and post stories.
 To run this application you can open it in Visual Studio and just host it via IIS Express by running the application. There is a 
 .mdf file used as the database when the application is ran in Visual Studio.   
 
-The alernative is that you can generate a build using the publish tool in Visual Studio and put that build in a website directory.   
+The alernative is that you can generate a build using the publish tool in Visual Studio and put that build in a website directory in IIS.To do this, open up IIS Manager on your desktop and right click "Sites" and then click "Add Website".
 Note that this application uses https at times, so make sure that in the application.config, you have https as an option. Also you
 would need to set up database access for it as well. 
 
