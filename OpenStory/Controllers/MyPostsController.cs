@@ -20,6 +20,12 @@ namespace OpenStory.Controllers
             _context = new ApplicationDbContext();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _context.Dispose();
+        }
+
         [Authorize]
         [Route("MyPosts/{page?}")]
         public ActionResult Index(int? page)

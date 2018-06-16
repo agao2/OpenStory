@@ -21,6 +21,13 @@ namespace OpenStory.Controllers
             this._userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this._context));
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _context.Dispose();
+            _userManager.Dispose();
+        }
+
         [Route("Stories/{page?}")]
         public ActionResult Index(int? page)
         {
@@ -195,7 +202,7 @@ namespace OpenStory.Controllers
                 SearchString = query,
                 Page = page.Value,
                 TotalPages = pageCount,
-            };
+            };            
             return View("StoryListSearch", viewModel);
         }
     }

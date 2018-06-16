@@ -27,12 +27,6 @@ namespace OpenStory.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-            ApplicationUser user = context.Users.Single(u => u.Email == "alex@gmail.com");
-
-            context.Topics.AddOrUpdate(x => x.Id,
-                new Topic() { Title = "Dks Suck", ApplicationUser = user , PostDate = DateTime.Now}
-                );
         }
     }
 }
