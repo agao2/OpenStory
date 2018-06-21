@@ -30,7 +30,7 @@ namespace OpenStory.Models
         public DbSet<Message> Messages { get; set; }
 
         public ApplicationDbContext()
-            : base("DesktopSQLConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 

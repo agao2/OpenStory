@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using OpenStory.Models;
 using System.Data.Entity;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -155,6 +154,8 @@ namespace OpenStory.Controllers
             }
 
             Topic topic = _context.Topics.Single(t => t.Id == NewReply.TopicId);
+            // string formattedText = NewReply.Reply.Content.Replace("\r\n", "<br/>");
+
             Reply reply = new Reply()
             {
                 Topic = topic,

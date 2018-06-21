@@ -60,3 +60,10 @@ a:hover{
     margin:auto;
     text-align:center;
 }
+
+pre {
+    background-color: #2B3E50;
+    color: white;
+    white-space: pre-wrap;
+    border:none;
+}
