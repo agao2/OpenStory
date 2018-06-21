@@ -154,7 +154,6 @@ namespace OpenStory.Controllers
             }
 
             Topic topic = _context.Topics.Single(t => t.Id == NewReply.TopicId);
-            // string formattedText = NewReply.Reply.Content.Replace("\r\n", "<br/>");
 
             Reply reply = new Reply()
             {
