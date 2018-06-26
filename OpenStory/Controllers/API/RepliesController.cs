@@ -48,6 +48,7 @@ namespace OpenStory.Controllers.API
         }
 
         // PUT api/reply/upvote
+        [HttpPut]
         public void UpVoteReply(int id)
         {
             Reply reply = _context.Replies.SingleOrDefault(r => r.Id == id);
@@ -60,6 +61,7 @@ namespace OpenStory.Controllers.API
         }
 
         //PUT api/reply/downvote
+        [HttpPut]
         public void DownVoteReply(int id)
         {
             Reply reply = _context.Replies.SingleOrDefault(r => r.Id == id);

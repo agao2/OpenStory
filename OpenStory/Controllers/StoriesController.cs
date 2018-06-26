@@ -92,7 +92,7 @@ namespace OpenStory.Controllers
                 topicReply.Topic = newTopic;
                 topicReply.ReplyDate = DateTime.Now;
                 topicReply.Likes = 0;
-                topicReply.Dislikes = 0;
+
 
                 _context.Topics.Add(newTopic);
                 _context.Replies.Add(topicReply);
@@ -161,8 +161,7 @@ namespace OpenStory.Controllers
                 ApplicationUser = _userManager.FindById(User.Identity.GetUserId()),
                 Content = NewReply.Reply.Content,
                 ReplyDate = DateTime.Now,
-                Likes = 0,
-                Dislikes = 0
+                Likes = 0
             };
             
             _context.Replies.Add(reply);
