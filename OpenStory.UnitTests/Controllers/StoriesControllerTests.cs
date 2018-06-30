@@ -1,13 +1,15 @@
 ﻿using NUnit.Framework;
+using Moq;
 using OpenStory.Controllers;
 using OpenStory.Models;
 using System.Web.Mvc;
+using System.Security.Principal;
 
 namespace OpenStory.UnitTests.Controllers
 {
-     // All test method names have the following format: [methodName] _[scenario]_[expectedBehavior]
-     // Note that it seems the first test actually takes upward of a few second to run, perhaps this is because
-     // it is setting up the database connection as the action methods include database access
+    // All test method names have the following format: [methodName] _[scenario]_[expectedBehavior]
+    // Note that it seems the first test actually takes upward of a few second to run, perhaps this is because
+    // it is setting up the database connection as the action methods include database access
     [TestFixture]
     class StoriesControllerTests
     {
@@ -71,6 +73,17 @@ namespace OpenStory.UnitTests.Controllers
             StoryFormViewModel viewModel = result.Model as StoryFormViewModel;
 
             Assert.NotNull(viewModel.TopicReply);
+        }
+
+        [Test]
+        public void Save_InvalidModelState_ExpectStoryForm()
+        {
+            StoriesController controller = new StoriesController();
+            controller.ModelState.AddModelError("", "error");
+ 
+            ViewResult result = controller.Save(null,null) as ViewResult;
+
+            Assert.AreEqual("StoryForm", result.ViewName);
         }
     }
 }
