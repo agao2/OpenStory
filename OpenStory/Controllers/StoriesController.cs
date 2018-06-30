@@ -20,6 +20,12 @@ namespace OpenStory.Controllers
             this._userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this._context));
         }
 
+        public StoriesController(ApplicationDbContext context , UserManager<ApplicationUser> userManager)
+        {
+            this._context = context;
+            this._userManager = userManager;
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
