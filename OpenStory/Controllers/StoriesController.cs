@@ -14,6 +14,8 @@ namespace OpenStory.Controllers
     {
         private ApplicationDbContext _context;
         private UserManager<ApplicationUser>  _userManager;
+        public Func<string> GetUserId; //For testing
+
         public StoriesController()
         {
             this._context = new ApplicationDbContext();
@@ -25,6 +27,7 @@ namespace OpenStory.Controllers
         {
             this._context = context;
             this._userManager = userManager;
+            GetUserId = () => User.Identity.GetUserId();
         }
 
         protected override void Dispose(bool disposing)
@@ -92,7 +95,7 @@ namespace OpenStory.Controllers
             else
             {
                 newTopic.PostDate = DateTime.Now;
-                ApplicationUser author = _userManager.FindById(User.Identity.GetUserId());
+                ApplicationUser author = _userManager.FindById(GetUserId());
                 newTopic.ApplicationUser = author;
 
                 topicReply.ApplicationUser = author;

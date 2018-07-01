@@ -96,33 +96,30 @@ namespace OpenStory.UnitTests.Controllers
         [Test]
         public void SaveValidModelState_ExpectRedirectIndex()
         {
-            ApplicationDbContext _context = new ApplicationDbContext();
-            UserManager<ApplicationUser> _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+        
+            // Setup mock DB Context
+            var mockSetTopics = new Mock<DbSet<Topic>>();
+            var mockSetReplies = new Mock<DbSet<Reply>>();
+            var mockContext = new Mock<ApplicationDbContext>();
+            mockContext.Setup(m => m.Topics).Returns(mockSetTopics.Object);
+            mockContext.Setup(m => m.Replies).Returns(mockSetReplies.Object);
 
-            // setup mock UserManager with fake user
+            // Setup usermanager so it will always find 1 user
+            var userStore = new Mock<IUserStore<ApplicationUser>>();
+            var _userManager = new UserManager<ApplicationUser>(userStore.Object);
             ApplicationUser testUser = new ApplicationUser()
             {
                 Name = "Test",
                 Id = "1"
             };
-            _userManager.Create(testUser, "fake password");
+            userStore.Setup(u => u.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(testUser);
 
-            //setup mock user and identity for context
-            var user = new Mock<IPrincipal>();
-            var identity = new Mock<IIdentity>();
-            user.Setup(u => u.Identity).Returns(identity.Object);
-            identity.Setup(i => i.Name).Returns("Test");
-            identity.Setup(i => i.IsAuthenticated).Returns(true);
+            //create controller, set the userid so it matches the 1 user we have in user manager
+            StoriesController controller = new StoriesController(mockContext.Object, _userManager)
+            {
+                GetUserId = () => "1"
+            };
 
-            // setup mock context for controller
-            var context = new Mock<HttpContextBase>();
-            context.Setup(c => c.User).Returns(user.Object);
-            
-
-            //create controller and set the controller context
-            StoriesController controller = new StoriesController(_context, _userManager);
-            ControllerContext controllerContext = new ControllerContext(context.Object, new RouteData(), controller);
-            controller.ControllerContext = controllerContext;
 
             // create parameters for the action
             Topic newTopic = new Topic() { Title = "Test Title" };
@@ -130,14 +127,10 @@ namespace OpenStory.UnitTests.Controllers
 
             RedirectToRouteResult result = controller.Save(newTopic, topicReply) as RedirectToRouteResult;
 
+            // Verify items were added to mockSets and correct redirect action is returned
+            mockSetTopics.Verify(m => m.Add(It.IsAny<Topic>()), Times.Once());
+            mockSetReplies.Verify(m => m.Add(It.IsAny<Reply>()),Times.Once());
             Assert.AreEqual("Index", result.RouteValues["action"]);
-
-            //clean up
-            _context.Topics.Remove(newTopic);
-            _context.Replies.Remove(topicReply);
-            _context.SaveChanges();
-            _userManager.Dispose();
-            _context.Dispose();
         }
     }
 }
