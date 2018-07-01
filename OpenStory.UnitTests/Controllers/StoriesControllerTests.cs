@@ -4,6 +4,13 @@ using OpenStory.Controllers;
 using OpenStory.Models;
 using System.Web.Mvc;
 using System.Security.Principal;
+using System.Data.Entity;
+using Microsoft.AspNet.Identity;
+using System.Web;
+using System.Security.Claims;
+using System.Web.Routing;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
 
 namespace OpenStory.UnitTests.Controllers
 {
@@ -84,6 +91,53 @@ namespace OpenStory.UnitTests.Controllers
             ViewResult result = controller.Save(null,null) as ViewResult;
 
             Assert.AreEqual("StoryForm", result.ViewName);
+        }
+
+        [Test]
+        public void SaveValidModelState_ExpectRedirectIndex()
+        {
+            ApplicationDbContext _context = new ApplicationDbContext();
+            UserManager<ApplicationUser> _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_context));
+
+            // setup mock UserManager with fake user
+            ApplicationUser testUser = new ApplicationUser()
+            {
+                Name = "Test",
+                Id = "1"
+            };
+            _userManager.Create(testUser, "fake password");
+
+            //setup mock user and identity for context
+            var user = new Mock<IPrincipal>();
+            var identity = new Mock<IIdentity>();
+            user.Setup(u => u.Identity).Returns(identity.Object);
+            identity.Setup(i => i.Name).Returns("Test");
+            identity.Setup(i => i.IsAuthenticated).Returns(true);
+
+            // setup mock context for controller
+            var context = new Mock<HttpContextBase>();
+            context.Setup(c => c.User).Returns(user.Object);
+            
+
+            //create controller and set the controller context
+            StoriesController controller = new StoriesController(_context, _userManager);
+            ControllerContext controllerContext = new ControllerContext(context.Object, new RouteData(), controller);
+            controller.ControllerContext = controllerContext;
+
+            // create parameters for the action
+            Topic newTopic = new Topic() { Title = "Test Title" };
+            Reply topicReply = new Reply() { Content = "Test Content" };
+
+            RedirectToRouteResult result = controller.Save(newTopic, topicReply) as RedirectToRouteResult;
+
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+
+            //clean up
+            _context.Topics.Remove(newTopic);
+            _context.Replies.Remove(topicReply);
+            _context.SaveChanges();
+            _userManager.Dispose();
+            _context.Dispose();
         }
     }
 }

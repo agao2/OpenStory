@@ -20,6 +20,7 @@ namespace OpenStory.Controllers
             this._userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this._context));
         }
 
+        // Overloaded constructor for dependency injection to make unit testing easier!
         public StoriesController(ApplicationDbContext context , UserManager<ApplicationUser> userManager)
         {
             this._context = context;
