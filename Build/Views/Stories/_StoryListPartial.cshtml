@@ -1,0 +1,47 @@
+﻿@model OpenStory.Models.StoryListPartialViewModel
+
+
+
+
+@helper TimeSince(DateTime date)
+    {
+        TimeSpan time = DateTime.Now.Subtract(date);
+        if (time.TotalDays > 7)
+        {
+            <h4> @date.ToShortDateString()</h4>
+        }
+        else if (time.TotalHours > 24)
+        {
+            <h4>@Convert.ToInt16(time.TotalDays) d </h4>
+        }
+        else if (time.TotalMinutes > 60)
+        {
+            <h4>@Convert.ToInt16(time.TotalHours) h</h4>
+        }
+        else if (time.TotalSeconds > 60)
+        {
+            <h4>@Convert.ToInt16(time.TotalMinutes) m </h4>
+        }
+        else
+        {
+            <h4>@time.Seconds s</h4>
+        }
+}
+
+<a href="@Url.Action("Topic/" + Model.Story.Id, "Stories")" class="tight">
+    <div class="row ">
+        <div class="col-sm-6">
+            <h3>@Model.Story.Title</h3>
+        </div>
+        <div class="col-sm-4">
+            <h4>@Model.Story.ApplicationUser.Name</h4>
+        </div>
+        <div class="col-sm-2">
+            @TimeSince(Model.Story.PostDate)
+        </div>
+    </div>
+    <hr class="tight" />
+</a>
+
+
+

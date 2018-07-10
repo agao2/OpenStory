@@ -1,0 +1,35 @@
+﻿@model OpenStory.Models.StoryFormViewModel
+@{
+    /**/
+
+    ViewBag.Title = "NewStory";
+}
+
+<h2>NewStory</h2>
+
+<div class="container panel">
+    @using (Html.BeginForm("Save", "Stories", FormMethod.Post, new { @class = "form-horizonal" }))
+    {
+
+        @Html.ValidationSummary(true, "Please fix the following")
+        <br>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.NewTopic.Title, new { @class = "form-control no-constraints", placeholder = "Title" })
+            @Html.ValidationMessageFor(m => m.NewTopic.Title)
+        </div>
+        <div class="form-group">
+            @Html.TextAreaFor(m => m.TopicReply.Content, new { @class = "form-control no-constraints" })
+            @Html.ValidationMessageFor(m => m.TopicReply.Content)
+        </div>
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.NewTopic.Id)
+        <button type="submit" class="btm btn-primary btn-lg">Save</button>
+    }
+    <br />
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,40 @@
+﻿
+@model OpenStory.Models.ReplyPartialViewModel
+
+<div class="row panel">
+    <div class="col-sm-2">
+        @Model.Username
+    </div>
+    <div class="container col-sm-10">
+        @using (Html.BeginForm("Reply", "Stories", new { ReturnUrl = ""}, FormMethod.Post, new { @class = "form-horizonal" }))
+        {
+
+            @Html.ValidationSummary(true, "Please fix the following")
+            <br>
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Reply.Content, new { @class = "form-control no-constraints" })
+                @Html.ValidationMessageFor(m => m.Reply.Content)
+            </div>
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.TopicId)
+            <button type="submit" class="btm btn-primary">Reply</button>
+        }
+        <br />
+    </div>
+</div>
+
+<script>
+    // this code is for allowing user tab in the text area
+    var textareas = document.getElementsByTagName('textarea');
+    var count = textareas.length;
+    for (var i = 0; i < count; i++) {
+        textareas[i].onkeydown = function (e) {
+            if (e.keyCode == 9 || e.which == 9) {
+                e.preventDefault();
+                var s = this.selectionStart;
+                this.value = this.value.substring(0, this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
+                this.selectionEnd = s + 1;
+            }
+        }
+    }
+</script>
