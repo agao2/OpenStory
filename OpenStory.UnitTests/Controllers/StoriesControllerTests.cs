@@ -20,6 +20,39 @@ namespace OpenStory.UnitTests.Controllers
     [TestFixture]
     class StoriesControllerTests
     {
+        Mock<DbSet<Topic>> topics = new Mock<DbSet<Topic>>();
+        Mock<DbSet<Reply>> replies = new Mock<DbSet<Reply>>();
+        StoriesController controller;
+
+        [SetUp]
+        public void Init()
+        {
+            /*
+             * Here we will set up the mock dbContext for topics and replies and userManager for our controller
+             * We will also create a test user with name=Test and id=1
+             * */
+            topics = new Mock<DbSet<Topic>>();
+            replies = new Mock<DbSet<Reply>>();
+            var mockContext = new Mock<ApplicationDbContext>();
+            mockContext.Setup(m => m.Topics).Returns(topics.Object);
+            mockContext.Setup(m => m.Replies).Returns(replies.Object);
+
+            // Setup usermanager so it will always find 1 user
+            var userStore = new Mock<IUserStore<ApplicationUser>>();
+            var _userManager = new UserManager<ApplicationUser>(userStore.Object);
+            ApplicationUser testUser = new ApplicationUser()
+            {
+                Name = "Test",
+                Id = "1"
+            };
+            userStore.Setup(u => u.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(testUser);
+
+            controller = new StoriesController(mockContext.Object, _userManager)
+            {
+                GetUserId = () => "1"
+            };
+        }
+
         [Test]
         public void Index_NullParameter_CorrectView()
         {
@@ -54,7 +87,6 @@ namespace OpenStory.UnitTests.Controllers
         [Test]
         public void New_DefaultScenario_CorrectView()
         {
-            StoriesController controller = new StoriesController();
             ViewResult result = controller.New() as ViewResult;
 
             Assert.AreEqual("StoryForm", result.ViewName);
@@ -63,7 +95,6 @@ namespace OpenStory.UnitTests.Controllers
         [Test]
         public void New_DefaultScenario_NewTopicNotNull()
         {
-            StoriesController controller = new StoriesController();
             ViewResult result = controller.New() as ViewResult;
 
             StoryFormViewModel viewModel = result.Model as StoryFormViewModel;
@@ -74,7 +105,6 @@ namespace OpenStory.UnitTests.Controllers
         [Test]
         public void New_DefaultScenario_TopicReplyNotNull()
         {
-            StoriesController controller = new StoriesController();
             ViewResult result = controller.New() as ViewResult;
 
             StoryFormViewModel viewModel = result.Model as StoryFormViewModel;
@@ -85,7 +115,6 @@ namespace OpenStory.UnitTests.Controllers
         [Test]
         public void Save_InvalidModelState_ExpectStoryForm()
         {
-            StoriesController controller = new StoriesController();
             controller.ModelState.AddModelError("", "error");
  
             ViewResult result = controller.Save(null,null) as ViewResult;
@@ -96,31 +125,6 @@ namespace OpenStory.UnitTests.Controllers
         [Test]
         public void SaveValidModelState_ExpectRedirectIndex()
         {
-        
-            // Setup mock DB Context
-            var mockSetTopics = new Mock<DbSet<Topic>>();
-            var mockSetReplies = new Mock<DbSet<Reply>>();
-            var mockContext = new Mock<ApplicationDbContext>();
-            mockContext.Setup(m => m.Topics).Returns(mockSetTopics.Object);
-            mockContext.Setup(m => m.Replies).Returns(mockSetReplies.Object);
-
-            // Setup usermanager so it will always find 1 user
-            var userStore = new Mock<IUserStore<ApplicationUser>>();
-            var _userManager = new UserManager<ApplicationUser>(userStore.Object);
-            ApplicationUser testUser = new ApplicationUser()
-            {
-                Name = "Test",
-                Id = "1"
-            };
-            userStore.Setup(u => u.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(testUser);
-
-            //create controller, set the userid so it matches the 1 user we have in user manager
-            StoriesController controller = new StoriesController(mockContext.Object, _userManager)
-            {
-                GetUserId = () => "1"
-            };
-
-
             // create parameters for the action
             Topic newTopic = new Topic() { Title = "Test Title" };
             Reply topicReply = new Reply() { Content = "Test Content" };
@@ -128,9 +132,10 @@ namespace OpenStory.UnitTests.Controllers
             RedirectToRouteResult result = controller.Save(newTopic, topicReply) as RedirectToRouteResult;
 
             // Verify items were added to mockSets and correct redirect action is returned
-            mockSetTopics.Verify(m => m.Add(It.IsAny<Topic>()), Times.Once());
-            mockSetReplies.Verify(m => m.Add(It.IsAny<Reply>()),Times.Once());
+            topics.Verify(m => m.Add(It.IsAny<Topic>()), Times.Once());
+            replies.Verify(m => m.Add(It.IsAny<Reply>()), Times.Once());
             Assert.AreEqual("Index", result.RouteValues["action"]);
         }
+
     }
 }
